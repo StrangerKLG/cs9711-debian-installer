@@ -102,6 +102,48 @@ lsusb
 
 Если установка идёт на реальной физической Linux-машине, этот шаг **не нужен**. Никакого проброса USB через VirtualBox там нет — достаточно просто вставить сканер в USB.
 
+
+### Опционально для VirtualBox: установить Guest Additions для копипаста
+
+Если копирование/вставка между основной машиной и VM не работает, установите VirtualBox Guest Additions внутри VM.
+
+На реальной физической Linux-машине этот шаг пропускается.
+
+В окне VirtualBox VM выберите:
+
+```text
+Устройства → Подключить образ диска Дополнений гостевой ОС...
+```
+
+В английском интерфейсе:
+
+```text
+Devices → Insert Guest Additions CD image...
+```
+
+Затем выполните в терминале VM:
+
+```bash
+sudo apt update
+sudo apt install -y build-essential dkms linux-headers-amd64 bzip2 perl make gcc wget
+sudo mkdir -p /mnt/vboxga
+sudo mount /dev/sr0 /mnt/vboxga
+sudo sh /mnt/vboxga/VBoxLinuxAdditions.run
+sudo reboot
+```
+
+После перезагрузки включите в меню VirtualBox:
+
+```text
+Устройства → Общий буфер обмена → Двунаправленный
+```
+
+или:
+
+```text
+Devices → Shared Clipboard → Bidirectional
+```
+
 ### 3. Скопировать и вставить команды скачивания проекта
 
 Скопируйте весь блок и вставьте его в терминал:

@@ -109,6 +109,36 @@ should show a line containing:
 
 If you install on a real physical Linux machine, do **not** do this step. There is no VirtualBox USB passthrough on a real machine; the scanner only needs to be plugged into USB.
 
+
+### Optional for VirtualBox: install Guest Additions for copy-paste
+
+If copy-paste between the host and the VM does not work, install VirtualBox Guest Additions inside the VM.
+
+Skip this step on a real physical Linux machine.
+
+In the VirtualBox VM window menu:
+
+```text
+Devices → Insert Guest Additions CD image...
+```
+
+Then run in the VM terminal:
+
+```bash
+sudo apt update
+sudo apt install -y build-essential dkms linux-headers-amd64 bzip2 perl make gcc wget
+sudo mkdir -p /mnt/vboxga
+sudo mount /dev/sr0 /mnt/vboxga
+sudo sh /mnt/vboxga/VBoxLinuxAdditions.run
+sudo reboot
+```
+
+After reboot, enable:
+
+```text
+Devices → Shared Clipboard → Bidirectional
+```
+
 ### 3. Copy and paste the project download commands
 
 Copy this whole block and paste it into the terminal:

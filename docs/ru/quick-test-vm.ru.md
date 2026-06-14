@@ -63,6 +63,52 @@ lsusb
 
 На реальной физической Linux-машине этот шаг пропускается полностью: там нет проброса USB через VirtualBox, сканер просто должен быть вставлен в USB.
 
+
+## 1.2 Опционально: установить VirtualBox Guest Additions для буфера обмена
+
+Этот шаг нужен только для теста в VirtualBox. Он включает общий буфер обмена, нормальную интеграцию мыши и экрана.
+
+На реальной физической Linux-машине этот шаг пропускается.
+
+В окне запущенной VM VirtualBox выберите меню:
+
+```text
+Устройства → Подключить образ диска Дополнений гостевой ОС...
+```
+
+В английском интерфейсе VirtualBox это:
+
+```text
+Devices → Insert Guest Additions CD image...
+```
+
+Затем внутри VM откройте Konsole и выполните:
+
+```bash
+sudo apt update
+sudo apt install -y build-essential dkms linux-headers-amd64 bzip2 perl make gcc wget
+sudo mkdir -p /mnt/vboxga
+sudo mount /dev/sr0 /mnt/vboxga
+sudo sh /mnt/vboxga/VBoxLinuxAdditions.run
+sudo reboot
+```
+
+После перезагрузки снова войдите в KDE. В меню VirtualBox включите общий буфер обмена:
+
+```text
+Устройства → Общий буфер обмена → Двунаправленный
+```
+
+или в английском интерфейсе:
+
+```text
+Devices → Shared Clipboard → Bidirectional
+```
+
+Ожидаемый результат: текст, скопированный на основной машине, можно вставить в терминал VM.
+
+Примечание: в Debian 13/trixie пакеты `virtualbox-guest-utils` / `virtualbox-guest-x11` могут отсутствовать в стандартных репозиториях. Проверенный путь — установка через CD image Guest Additions, как описано выше.
+
 ## 2. Скачать проект
 
 ```bash

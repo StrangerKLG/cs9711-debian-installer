@@ -57,6 +57,40 @@ Expected: one line contains `2541:0236`.
 
 On a real physical Linux machine, skip this whole VirtualBox USB passthrough step.
 
+
+## 1.2 Optional: install VirtualBox Guest Additions for clipboard
+
+This step is useful only for VirtualBox testing. It enables shared clipboard, better mouse integration, and display integration.
+
+If you install on a real physical Linux machine, skip this step.
+
+In the VirtualBox VM window menu, choose:
+
+```text
+Devices → Insert Guest Additions CD image...
+```
+
+Then inside the VM open Konsole and run:
+
+```bash
+sudo apt update
+sudo apt install -y build-essential dkms linux-headers-amd64 bzip2 perl make gcc wget
+sudo mkdir -p /mnt/vboxga
+sudo mount /dev/sr0 /mnt/vboxga
+sudo sh /mnt/vboxga/VBoxLinuxAdditions.run
+sudo reboot
+```
+
+After reboot, log in again. In VirtualBox settings/menu, make sure shared clipboard is enabled:
+
+```text
+Devices → Shared Clipboard → Bidirectional
+```
+
+Expected result: copying text from the host and pasting it into the VM terminal works.
+
+Note: Debian 13/trixie repositories may not provide `virtualbox-guest-utils` / `virtualbox-guest-x11` packages by default. The Guest Additions CD image method above is the tested path.
+
 ## 2. Install git and download this project
 
 Inside the VM:
