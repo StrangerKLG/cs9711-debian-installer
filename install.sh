@@ -13,6 +13,7 @@ INSTALL_DRIVER=1
 SETUP_UDEV=1
 SETUP_SUDO=0
 SETUP_SDDM=0
+SETUP_POLKIT=0
 ENROLL=0
 VERIFY=0
 ROLLBACK=0
@@ -34,7 +35,7 @@ Usage: sudo ./install.sh [options]
 
 Install Chipsailing CS9711 (USB ID 2541:0236) fingerprint support on Debian 13.
 The script builds the pinned libfprint-CS9711 fork, installs udev power rule,
-and can optionally enable fingerprint auth for sudo and SDDM only.
+and can optionally enable fingerprint auth for sudo, SDDM, and KDE/Polkit prompts only.
 
 Options:
   --user USER          Target login user for enrollment/PAM (default: sudo user)
@@ -42,6 +43,7 @@ Options:
   --driver-only        Build/install driver + udev only; no PAM changes (default PAM-safe mode)
   --sudo               Enable fingerprint auth for sudo for --user, password fallback kept
   --sddm               Enable fingerprint auth for SDDM login for --user, password fallback kept
+  --polkit             Enable fingerprint auth for KDE/Polkit admin prompts for --user
   --enroll             Run fprintd-enroll after driver install
   --verify             Run fprintd-verify after enroll/install
   --no-driver          Skip driver build/install; useful for PAM-only changes
@@ -54,7 +56,7 @@ Recommended first run:
   sudo ./install.sh --user "$USER" --driver-only --enroll --verify
 
 Then, after verify-match:
-  sudo ./install.sh --user "$USER" --no-driver --sudo --sddm
+  sudo ./install.sh --user "$USER" --no-driver --sudo --sddm --polkit
 
 Deliberately NOT supported by default:
   global pam-auth-update --enable fprintd / common-auth fingerprint auth.
@@ -66,9 +68,10 @@ while [ "$#" -gt 0 ]; do
   case "$1" in
     --user) TARGET_USER="${2:-}"; shift 2;;
     --finger) FINGER="${2:-}"; shift 2;;
-    --driver-only) SETUP_SUDO=0; SETUP_SDDM=0; shift;;
+    --driver-only) SETUP_SUDO=0; SETUP_SDDM=0; SETUP_POLKIT=0; shift;;
     --sudo) SETUP_SUDO=1; shift;;
     --sddm) SETUP_SDDM=1; shift;;
+    --polkit) SETUP_POLKIT=1; shift;;
     --enroll) ENROLL=1; shift;;
     --verify) VERIFY=1; shift;;
     --no-driver) INSTALL_DRIVER=0; shift;;
@@ -87,6 +90,11 @@ Rollback notes:
    Backups are stored under /root/cs9711-installer-backups/*/pam.d
    Restore one backup, for example:
      sudo cp -a /root/cs9711-installer-backups/<stamp>/pam.d/* /etc/pam.d/
+
+   For Polkit: if /etc/pam.d/polkit-1 did not exist before, the installer may
+   have created it from /usr/lib/pam.d/polkit-1. To remove only that local
+   override:
+     sudo rm -f /etc/pam.d/polkit-1
 
    Or manually remove blocks between:
      # BEGIN cs9711-fingerprint-installer
@@ -237,6 +245,8 @@ verify_driver(){
 pam_backup(){
   mkdir -p "$BACKUP_DIR/pam.d" "$BACKUP_DIR/pam-configs"
   cp -a /etc/pam.d/* "$BACKUP_DIR/pam.d/" 2>/dev/null || true
+  mkdir -p "$BACKUP_DIR/usr-lib-pam.d"
+  cp -a /usr/lib/pam.d/* "$BACKUP_DIR/usr-lib-pam.d/" 2>/dev/null || true
   cp -a /usr/share/pam-configs/* "$BACKUP_DIR/pam-configs/" 2>/dev/null || true
   log "Backed up PAM to $BACKUP_DIR"
 }
@@ -276,11 +286,27 @@ install_pam_block(){
   log "Installed $label PAM block in $file"
 }
 
+ensure_polkit_pam_file(){
+  if [ -f /etc/pam.d/polkit-1 ]; then
+    return 0
+  fi
+  if [ -f /usr/lib/pam.d/polkit-1 ]; then
+    log "Creating local /etc/pam.d/polkit-1 override from /usr/lib/pam.d/polkit-1"
+    cp -a /usr/lib/pam.d/polkit-1 /etc/pam.d/polkit-1
+    return 0
+  fi
+  warn "No polkit PAM file found at /etc/pam.d/polkit-1 or /usr/lib/pam.d/polkit-1; skipping Polkit"
+  return 1
+}
+
 setup_pam(){
   pam_backup
   remove_global_common_auth
   [ "$SETUP_SUDO" -eq 1 ] && install_pam_block /etc/pam.d/sudo 5 30 sudo
   [ "$SETUP_SDDM" -eq 1 ] && install_pam_block /etc/pam.d/sddm 5 30 SDDM
+  if [ "$SETUP_POLKIT" -eq 1 ]; then
+    ensure_polkit_pam_file && install_pam_block /etc/pam.d/polkit-1 5 30 Polkit
+  fi
   log "Current pam_fprintd references:"
   grep -RIn 'pam_fprintd' /etc/pam.d /usr/share/pam-configs 2>/dev/null || true
   warn "KDE lockscreen fingerprint is intentionally not enabled. Password fallback remains via common-auth."
@@ -306,10 +332,10 @@ main(){
   [ "$INSTALL_DRIVER" -eq 1 ] && build_install_driver
   [ "$SETUP_UDEV" -eq 1 ] && setup_udev
   verify_driver
-  if [ "$SETUP_SUDO" -eq 1 ] || [ "$SETUP_SDDM" -eq 1 ]; then setup_pam; fi
+  if [ "$SETUP_SUDO" -eq 1 ] || [ "$SETUP_SDDM" -eq 1 ] || [ "$SETUP_POLKIT" -eq 1 ]; then setup_pam; fi
   [ "$ENROLL" -eq 1 ] && run_enroll
   [ "$VERIFY" -eq 1 ] && run_verify
   log "Done. Backups: $BACKUP_DIR"
-  log "Recommended checks: fprintd-list '$TARGET_USER'; sudo -k && sudo true; SDDM Enter -> finger if --sddm was enabled."
+  log "Recommended checks: fprintd-list '$TARGET_USER'; sudo -k && sudo true; SDDM Enter -> finger if --sddm was enabled; trigger a KDE/Polkit admin prompt if --polkit was enabled."
 }
 main

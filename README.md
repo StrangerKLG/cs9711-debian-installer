@@ -13,7 +13,7 @@ It automates the working Debian 13 flow tested on a live system:
 - patch old Meson `udev` dependency to Debian 13 `libudev`;
 - install `libfprint` into `/usr/local`;
 - add udev rule to disable USB autosuspend for `2541:0236`;
-- optionally enable fingerprint authentication for `sudo` and SDDM only, with password fallback.
+- optionally enable fingerprint authentication for `sudo`, SDDM, and KDE/Polkit admin prompts, with password fallback.
 
 
 ## AI-generated installer disclosure
@@ -28,7 +28,7 @@ Please read the script before running it. It modifies `/usr/local` libraries, ud
 
 This is not an official Debian/libfprint package. It installs a forked `libfprint` into `/usr/local` so `fprintd` loads it before the stock library.
 
-Do **not** enable fingerprint globally in `/etc/pam.d/common-auth` unless you know exactly what you are doing. In the tested KDE setup, KDE lockscreen fingerprint crashed `fprintd`. The installer deliberately uses targeted PAM snippets for `sudo`/SDDM instead.
+Do **not** enable fingerprint globally in `/etc/pam.d/common-auth` unless you know exactly what you are doing. In the tested KDE setup, KDE lockscreen fingerprint crashed `fprintd`. The installer deliberately uses targeted PAM snippets for `sudo`, SDDM, and optional Polkit instead.
 
 Keep a password/root/SSH recovery path open while testing.
 
@@ -40,10 +40,10 @@ Clone or download this project, then:
 sudo ./install.sh --user "$USER" --driver-only --enroll --verify
 ```
 
-If you get `verify-match`, optionally enable fingerprint for `sudo` and SDDM login:
+If you get `verify-match`, optionally enable fingerprint for `sudo`, SDDM login, and KDE/Polkit admin prompts:
 
 ```bash
-sudo ./install.sh --user "$USER" --no-driver --sudo --sddm
+sudo ./install.sh --user "$USER" --no-driver --sudo --sddm --polkit
 ```
 
 Test `sudo`:
@@ -55,12 +55,14 @@ sudo true
 
 For SDDM: log out to the login screen, press Enter on the password field, then touch the enrolled finger. Password should remain a fallback.
 
+For Polkit/KDE admin prompts: trigger a desktop action that opens “Authentication is required” / “Требуется аутентификация”, then touch the enrolled finger. Password should remain a fallback.
+
 ## One-shot install
 
 For confident testers only:
 
 ```bash
-sudo ./install.sh --user "$USER" --sudo --sddm --enroll --verify
+sudo ./install.sh --user "$USER" --sudo --sddm --polkit --enroll --verify
 ```
 
 This still avoids global `common-auth` fingerprint auth.
@@ -73,6 +75,7 @@ This still avoids global `common-auth` fingerprint auth.
 --driver-only     Driver + udev only; no PAM changes
 --sudo            Enable sudo fingerprint auth for USER
 --sddm            Enable SDDM fingerprint auth for USER
+--polkit          Enable KDE/Polkit admin-prompt fingerprint auth for USER
 --enroll          Run fprintd-enroll
 --verify          Run fprintd-verify
 --no-driver       Skip driver build/install
@@ -88,6 +91,7 @@ This still avoids global `common-auth` fingerprint auth.
 - `/etc/udev/rules.d/99-cs9711-fingerprint-power.rules`
 - optionally `/etc/pam.d/sudo`
 - optionally `/etc/pam.d/sddm`
+- optionally `/etc/pam.d/polkit-1` (local override copied from `/usr/lib/pam.d/polkit-1` when needed)
 
 Backups are stored under:
 
@@ -139,6 +143,7 @@ sudo udevadm trigger -s usb || true
 - fork commit `c242a40fcc51aec5b57d877bdf3edfe8cb4883fd`
 - `sudo` fingerprint auth: works
 - SDDM login fingerprint auth: works via Enter → finger
+- KDE/Polkit admin-prompt fingerprint auth: works
 - KDE lockscreen fingerprint: not recommended; crashed `fprintd` during testing
 
 ## Why not a `.deb` yet?

@@ -82,6 +82,14 @@ sudo true
 
 Expected behavior: sudo asks for the enrolled finger. If fingerprint fails or times out, password remains fallback.
 
+Optional KDE/Polkit admin prompts on desktop installs:
+
+```bash
+sudo ./install.sh --user "$USER" --no-driver --polkit --yes
+```
+
+This enables fingerprint in Polkit authorization dialogs only; it does not enable KDE lockscreen or wallet fingerprint.
+
 ## 5. Optional: SDDM login
 
 Only if you use SDDM and understand the caveat about KDE lockscreen:

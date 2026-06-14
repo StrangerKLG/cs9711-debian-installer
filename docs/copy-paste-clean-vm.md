@@ -105,6 +105,14 @@ sudo true
 
 Expected behavior: sudo asks for the enrolled finger. Password remains fallback if fingerprint fails or times out.
 
+Optional KDE/Polkit admin prompts (desktop systems):
+
+```bash
+sudo ./install.sh --user "$USER" --no-driver --polkit --yes
+```
+
+This affects `/etc/pam.d/polkit-1` only. Trigger a KDE/Polkit admin prompt to test; password remains fallback.
+
 ## 6. Optional: enable SDDM login
 
 Only if the VM uses SDDM:
