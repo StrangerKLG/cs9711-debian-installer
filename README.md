@@ -23,6 +23,12 @@ It automates the working Debian 13 flow tested on a live system:
 
 
 
+
+## PDF guides
+
+- [ENG PDF guide](docs/pdf/ENG_cs9711-debian-installer-guide.pdf)
+- [RU PDF инструкция](docs/pdf/RU_cs9711-debian-installer-guide.pdf)
+
 ## Russian documentation
 
 Russian documentation is available in [`docs/ru/README.ru.md`](docs/ru/README.ru.md).
