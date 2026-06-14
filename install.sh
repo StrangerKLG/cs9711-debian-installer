@@ -178,7 +178,7 @@ build_install_driver(){
 
   log "Configuring/building libfprint-CS9711"
   rm -rf "$BUILD_ROOT/builddir"
-  meson setup "$BUILD_ROOT/builddir" \
+  meson setup "$BUILD_ROOT/builddir" "$BUILD_ROOT" \
     --prefix=/usr/local \
     --buildtype=release \
     -Ddoc=false \
