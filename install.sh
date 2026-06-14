@@ -96,7 +96,7 @@ Rollback notes:
    Remove local libfprint override:
      sudo rm -f /etc/ld.so.conf.d/local-libfprint.conf
      sudo mkdir -p /root/libfprint-cs9711-disabled
-     sudo mv /usr/local/lib*/**/libfprint-2.so* /root/libfprint-cs9711-disabled/ 2>/dev/null || true
+     sudo find /usr/local/lib /usr/local/lib64 -name 'libfprint-2.so*' -exec mv -t /root/libfprint-cs9711-disabled/ {} + 2>/dev/null || true
      sudo ldconfig
      sudo systemctl restart fprintd || true
 
