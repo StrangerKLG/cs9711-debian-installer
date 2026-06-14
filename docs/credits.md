@@ -9,6 +9,14 @@ This project is a small installer/documentation wrapper around existing open-sou
 - Community CS9711 fork used by this installer: <https://github.com/ericlinagora/libfprint-CS9711>
   - Pinned commit tested here: `c242a40fcc51aec5b57d877bdf3edfe8cb4883fd`
 
+## Tested hardware reference
+
+The tested scanner was purchased here:
+
+- <https://www.ozon.ru/product/usb-skaner-otpechatkov-paltsev-windows-hello-dl-ya-pk-noutbuka-chernoe-1410552111/>
+
+This is **not advertising or an affiliate recommendation**. It is only a reference to the exact device bought and tested by the maintainer.
+
 ## Documentation references
 
 - ArchWiki fprint: <https://wiki.archlinux.org/title/Fprint>

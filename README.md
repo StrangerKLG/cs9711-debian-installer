@@ -6,6 +6,12 @@ Experimental installer for USB fingerprint scanners detected as:
 2541:0236 Chipsailing CS9711Fingprint
 ```
 
+Tested with this specific USB fingerprint reader bought by the maintainer:
+
+- <https://www.ozon.ru/product/usb-skaner-otpechatkov-paltsev-windows-hello-dl-ya-pk-noutbuka-chernoe-1410552111/>
+
+This is **not advertising or an affiliate recommendation**. It is only a reference to the exact device that was purchased and tested.
+
 It automates the working Debian 13 flow tested on a live system:
 
 - install build/runtime dependencies;
