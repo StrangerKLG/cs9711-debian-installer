@@ -22,6 +22,11 @@ It automates the working Debian 13 flow tested on a live system:
 - optionally enable fingerprint authentication for `sudo`, SDDM, and KDE/Polkit admin prompts, with password fallback.
 
 
+
+## Russian documentation
+
+Russian documentation is available in [`docs/ru/README.ru.md`](docs/ru/README.ru.md).
+
 ## AI-generated installer disclosure
 
 This installer script and documentation were drafted by an AI agent, with human direction and review, based on manual testing on Debian 13.
