@@ -160,8 +160,7 @@ sudo ./install.sh --user "$USER" --no-driver --sudo --sddm --polkit --yes
 Скопируйте и вставьте:
 
 ```bash
-sudo -k
-sudo true
+sudo -k && sudo true
 ```
 
 Ожидаемый результат: система попросит приложить записанный палец. Приложите палец к сканеру. Если отпечаток не сработал или истёк timeout, можно ввести пароль.
@@ -195,8 +194,7 @@ sudo ./install.sh --user "$USER" --no-driver --sudo --sddm --polkit
 Проверка `sudo`:
 
 ```bash
-sudo -k
-sudo true
+sudo -k && sudo true
 ```
 
 Для SDDM: выйдите на экран входа, нажмите Enter в поле пароля, затем приложите записанный палец. Пароль должен остаться fallback-вариантом.

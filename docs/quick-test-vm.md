@@ -97,8 +97,7 @@ sudo ./install.sh --user "$USER" --no-driver --sudo --yes
 Test it safely:
 
 ```bash
-sudo -k
-sudo true
+sudo -k && sudo true
 ```
 
 Expected behavior: sudo asks for the enrolled finger. If fingerprint fails or times out, password remains fallback.

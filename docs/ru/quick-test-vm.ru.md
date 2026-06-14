@@ -95,8 +95,7 @@ sudo ./install.sh --user "$USER" --no-driver --sudo --yes
 Проверка:
 
 ```bash
-sudo -k
-sudo true
+sudo -k && sudo true
 ```
 
 Ожидаемое поведение: `sudo` просит приложить палец. Если отпечаток не сработал или истёк timeout, пароль остаётся fallback-вариантом.

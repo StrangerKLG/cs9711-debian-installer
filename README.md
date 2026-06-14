@@ -167,8 +167,7 @@ Expected result: the script finishes with `Done` and prints recommended checks.
 Copy and paste:
 
 ```bash
-sudo -k
-sudo true
+sudo -k && sudo true
 ```
 
 Expected result: the system asks for the enrolled finger. Touch the reader. If fingerprint fails or times out, enter the password.
@@ -202,8 +201,7 @@ sudo ./install.sh --user "$USER" --no-driver --sudo --sddm --polkit
 Test `sudo`:
 
 ```bash
-sudo -k
-sudo true
+sudo -k && sudo true
 ```
 
 For SDDM: log out to the login screen, press Enter on the password field, then touch the enrolled finger. Password should remain a fallback.
