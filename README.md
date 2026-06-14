@@ -45,6 +45,97 @@ Do **not** enable fingerprint globally in `/etc/pam.d/common-auth` unless you kn
 
 Keep a password/root/SSH recovery path open while testing.
 
+
+## Step-by-step for absolute beginners
+
+This section is intentionally very explicit.
+
+### 1. Open the terminal
+
+After logging into KDE, open the application menu and start **Konsole** / **Terminal**.
+
+You should see a window with a prompt similar to:
+
+```text
+stranger@cs9711-github:~$
+```
+
+### 2. Copy and paste the project download commands
+
+Copy this whole block and paste it into the terminal:
+
+```bash
+git clone https://github.com/StrangerKLG/cs9711-debian-installer.git
+cd cs9711-debian-installer
+```
+
+Press Enter if the terminal does not start automatically.
+
+Expected result: Git downloads the repository, then the prompt changes so the current folder ends with:
+
+```text
+cs9711-debian-installer$
+```
+
+### 3. Run the first install step
+
+Copy and paste:
+
+```bash
+sudo ./install.sh --user "$USER" --driver-only --enroll --verify --yes
+```
+
+The terminal will ask for your password. Type your Linux login password and press Enter.
+
+Important: while typing the password, nothing may be shown on screen. This is normal.
+
+The script will install packages, build the driver, and then start fingerprint enrollment.
+
+### 4. Enroll the finger
+
+When the terminal asks to touch the fingerprint reader, place the same finger on the reader several times. Move it slightly between touches.
+
+Look for a successful verification result:
+
+```text
+verify-match
+```
+
+If you see `verify-no-match`, repeat the enrollment step.
+
+### 5. Enable fingerprint login/auth prompts
+
+Only after `verify-match`, copy and paste:
+
+```bash
+sudo ./install.sh --user "$USER" --no-driver --sudo --sddm --polkit --yes
+```
+
+Expected result: the script finishes with `Done` and prints recommended checks.
+
+### 6. Test sudo
+
+Copy and paste:
+
+```bash
+sudo -k
+sudo true
+```
+
+Expected result: the system asks for the enrolled finger. Touch the reader. If fingerprint fails or times out, enter the password.
+
+### 7. Test SDDM login
+
+Log out of KDE. On the login screen, select the user, press Enter in the password field, then touch the enrolled finger.
+
+Expected result: you log in without typing the password. The password must still work as fallback.
+
+### 8. Test KDE/Polkit admin prompt
+
+Open a KDE settings action that asks for administrator authentication. When the dialog says “Authentication is required”, touch the enrolled finger.
+
+Expected result: the admin prompt accepts the fingerprint. The password must still work as fallback.
+
 ## Quick start
 
 Clone or download this project, then:
