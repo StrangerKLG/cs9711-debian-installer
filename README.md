@@ -172,6 +172,25 @@ sudo -k && sudo true
 
 Expected result: the system asks for the enrolled finger. Touch the reader. If fingerprint fails or times out, enter the password.
 
+
+### If copy-paste merged commands together
+
+Some PDF viewers may paste line breaks incorrectly. If you see an error like:
+
+```text
+sudo: truesudo: command not found
+```
+
+then two commands were pasted as one broken word, for example `sudo truesudo`.
+
+Do not continue with the broken command. Copy and run this single-line command instead:
+
+```bash
+sudo -k && sudo true
+```
+
+In general, when a command block contains several lines, paste it carefully and check that every line starts where it should. If unsure, use the single-line commands shown in this guide.
+
 ### 8. Test SDDM login
 
 Log out of KDE. On the login screen, select the user, press Enter in the password field, then touch the enrolled finger.

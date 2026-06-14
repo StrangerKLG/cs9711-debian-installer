@@ -118,3 +118,18 @@ sudo ./install.sh --user "$USER" --no-driver --sddm --polkit --yes
 Не включайте глобальный `common-auth`. Скрипт специально не делает этого.
 
 KDE lockscreen и KDE Wallet намеренно не включаются на отпечаток.
+
+
+## Troubleshooting: команда превратилась в `truesudo`
+
+Если терминал пишет:
+
+```text
+sudo: truesudo: команда не найдена
+```
+
+значит PDF-просмотрщик или буфер обмена склеил две строки в одну. Проверку `sudo` нужно запустить одной явной строкой:
+
+```bash
+sudo -k && sudo true
+```

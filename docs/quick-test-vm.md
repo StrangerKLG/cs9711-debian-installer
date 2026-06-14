@@ -129,3 +129,18 @@ sudo -k && sudo true
 ```
 
 It tests authentication without changing packages.
+
+
+## Troubleshooting: pasted command became `truesudo`
+
+If the terminal says:
+
+```text
+sudo: truesudo: command not found
+```
+
+then the PDF viewer or clipboard merged two lines into one. Run the sudo test as one explicit line:
+
+```bash
+sudo -k && sudo true
+```
