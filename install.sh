@@ -118,7 +118,7 @@ mkdir -p "$BACKUP_DIR"
 
 check_debian(){
   if [ -r /etc/os-release ]; then
-    # shellcheck source=/etc/os-release
+    # shellcheck disable=SC1091
     . /etc/os-release
     log "Detected OS: ${PRETTY_NAME:-unknown}"
     if [ "${ID:-}" != "debian" ]; then warn "This was tested on Debian 13; current ID=${ID:-unknown}."; fi
