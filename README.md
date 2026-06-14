@@ -20,13 +20,15 @@ It automates the working Debian 13 flow tested on a live system:
 
 This installer script and documentation were drafted with help from an AI assistant, based on manual testing on Debian 13.
 
-The AI did **not** create the fingerprint driver. This repository wraps and automates installation of the community fork [`ericlinagora/libfprint-CS9711`](https://github.com/ericlinagora/libfprint-CS9711), pinned to the tested commit `c242a40fcc51aec5b57d877bdf3edfe8cb4883fd`. See [Credits and related projects](docs/credits.md).
+The AI did **not** create the fingerprint driver. This repository wraps and automates installation of the community fork [`ericlinagora/libfprint-CS9711`](https://github.com/ericlinagora/libfprint-CS9711), pinned to the tested commit `c242a40fcc51aec5b57d877bdf3edfe8cb4883fd`. See [Credits and related projects](docs/credits.md) and [Third-party notices](THIRD_PARTY_NOTICES.md).
 
 Please read the script before running it. It modifies `/usr/local` libraries, udev rules, and optionally PAM files.
 
 ## Big warning
 
 This is not an official Debian/libfprint package. It installs a forked `libfprint` into `/usr/local` so `fprintd` loads it before the stock library.
+
+This repository does not vendor or redistribute the upstream driver source or binaries. The installer downloads and builds upstream `libfprint-CS9711` locally. The wrapper files in this repository are MIT-licensed, but upstream `libfprint`/`libfprint-CS9711` remains under its own LGPL-2.1 license.
 
 Do **not** enable fingerprint globally in `/etc/pam.d/common-auth` unless you know exactly what you are doing. In the tested KDE setup, KDE lockscreen fingerprint crashed `fprintd`. The installer deliberately uses targeted PAM snippets for `sudo`, SDDM, and optional Polkit instead.
 
