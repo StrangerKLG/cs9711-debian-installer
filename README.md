@@ -148,3 +148,7 @@ A proper package would be better, but the first goal is to reduce a 20+ page man
 ## Clean VM test guide
 
 See [docs/quick-test-vm.md](docs/quick-test-vm.md).
+
+## Copy-paste clean VM instructions
+
+For a fresh Debian 13 VM test, see [docs/copy-paste-clean-vm.md](docs/copy-paste-clean-vm.md).
