@@ -60,7 +60,40 @@ You should see a window with a prompt similar to:
 stranger@cs9711-github:~$
 ```
 
-### 2. Copy and paste the project download commands
+
+### 2. For VirtualBox tests only: attach the USB fingerprint reader
+
+If you are testing inside VirtualBox, the physical USB scanner must be passed through to the VM.
+
+In the VirtualBox VM window menu:
+
+```text
+Devices → USB → Chipsailing CS9711Fingprint
+```
+
+or choose the USB device with ID:
+
+```text
+2541:0236
+```
+
+Make sure the checkbox near this USB device is enabled. After that the reader is connected to the virtual machine, not to the host system.
+
+Expected result inside the VM:
+
+```bash
+lsusb
+```
+
+should show a line containing:
+
+```text
+2541:0236
+```
+
+If you install on a real physical Linux machine, do **not** do this step. There is no VirtualBox USB passthrough on a real machine; the scanner only needs to be plugged into USB.
+
+### 3. Copy and paste the project download commands
 
 Copy this whole block and paste it into the terminal:
 
@@ -77,7 +110,7 @@ Expected result: Git downloads the repository, then the prompt changes so the cu
 cs9711-debian-installer$
 ```
 
-### 3. Run the first install step
+### 4. Run the first install step
 
 Copy and paste:
 
@@ -91,7 +124,7 @@ Important: while typing the password, nothing may be shown on screen. This is no
 
 The script will install packages, build the driver, and then start fingerprint enrollment.
 
-### 4. Enroll the finger
+### 5. Enroll the finger
 
 When the terminal asks to touch the fingerprint reader, place the same finger on the reader several times. Move it slightly between touches.
 
@@ -103,7 +136,7 @@ verify-match
 
 If you see `verify-no-match`, repeat the enrollment step.
 
-### 5. Enable fingerprint login/auth prompts
+### 6. Enable fingerprint login/auth prompts
 
 Only after `verify-match`, copy and paste:
 
@@ -113,7 +146,7 @@ sudo ./install.sh --user "$USER" --no-driver --sudo --sddm --polkit --yes
 
 Expected result: the script finishes with `Done` and prints recommended checks.
 
-### 6. Test sudo
+### 7. Test sudo
 
 Copy and paste:
 
@@ -124,13 +157,13 @@ sudo true
 
 Expected result: the system asks for the enrolled finger. Touch the reader. If fingerprint fails or times out, enter the password.
 
-### 7. Test SDDM login
+### 8. Test SDDM login
 
 Log out of KDE. On the login screen, select the user, press Enter in the password field, then touch the enrolled finger.
 
 Expected result: you log in without typing the password. The password must still work as fallback.
 
-### 8. Test KDE/Polkit admin prompt
+### 9. Test KDE/Polkit admin prompt
 
 Open a KDE settings action that asks for administrator authentication. When the dialog says “Authentication is required”, touch the enrolled finger.
 

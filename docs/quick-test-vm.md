@@ -36,6 +36,27 @@ sudo update-grub
 sudo reboot
 ```
 
+
+## 1.1 Attach the USB scanner to the running VM
+
+For VirtualBox testing, plugging the scanner into the host is not enough. Attach it to the VM:
+
+```text
+VirtualBox VM window → Devices → USB → Chipsailing CS9711Fingprint
+```
+
+or select the device with USB ID `2541:0236`.
+
+The menu item should become checked. Then verify inside the VM:
+
+```bash
+lsusb
+```
+
+Expected: one line contains `2541:0236`.
+
+On a real physical Linux machine, skip this whole VirtualBox USB passthrough step.
+
 ## 2. Install git and download this project
 
 Inside the VM:
