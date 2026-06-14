@@ -26,8 +26,18 @@ It automates the working Debian 13 flow tested on a live system:
 
 ## PDF guides
 
-- [ENG PDF guide](docs/pdf/ENG_cs9711-debian-installer-guide.pdf)
-- [RU PDF инструкция](docs/pdf/RU_cs9711-debian-installer-guide.pdf)
+Direct PDF download links:
+
+- [ENG PDF guide](https://raw.githubusercontent.com/StrangerKLG/cs9711-debian-installer/master/docs/pdf/ENG_cs9711-debian-installer-guide.pdf)
+- [RU PDF инструкция](https://raw.githubusercontent.com/StrangerKLG/cs9711-debian-installer/master/docs/pdf/RU_cs9711-debian-installer-guide.pdf)
+
+If GitHub opens a preview page instead of downloading the PDF, download it from the terminal:
+
+```bash
+wget -O RU_cs9711-debian-installer-guide.pdf https://raw.githubusercontent.com/StrangerKLG/cs9711-debian-installer/master/docs/pdf/RU_cs9711-debian-installer-guide.pdf
+```
+
+A real PDF file starts with `%PDF`. If the downloaded file starts with `<!DOCTYPE html>`, the browser saved a GitHub web page instead of the PDF.
 
 ## Russian documentation
 
