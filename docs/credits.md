@@ -16,8 +16,8 @@ This project is a small installer/documentation wrapper around existing open-sou
 
 ## AI disclosure
 
-The installer script and documentation in this repository were drafted with help from an AI assistant, based on manual testing logs and a verified Debian 13 setup.
+The installer script and documentation in this repository were drafted by an AI agent, with human direction and review, based on manual testing logs and a verified Debian 13 setup.
 
-The AI did not create the fingerprint driver. The CS9711 driver support comes from the community fork listed above. This project only automates and documents a tested installation flow.
+The AI agent did not create the fingerprint driver. The CS9711 driver support comes from the community fork listed above. This project only automates and documents a tested installation flow.
 
 Before running the script, read it. It modifies system libraries, udev rules, and optionally PAM configuration.

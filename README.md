@@ -18,9 +18,9 @@ It automates the working Debian 13 flow tested on a live system:
 
 ## AI-generated installer disclosure
 
-This installer script and documentation were drafted with help from an AI assistant, based on manual testing on Debian 13.
+This installer script and documentation were drafted by an AI agent, with human direction and review, based on manual testing on Debian 13.
 
-The AI did **not** create the fingerprint driver. This repository wraps and automates installation of the community fork [`ericlinagora/libfprint-CS9711`](https://github.com/ericlinagora/libfprint-CS9711), pinned to the tested commit `c242a40fcc51aec5b57d877bdf3edfe8cb4883fd`. See [Credits and related projects](docs/credits.md) and [Third-party notices](THIRD_PARTY_NOTICES.md).
+The AI agent did **not** create the fingerprint driver. This repository wraps and automates installation of the community fork [`ericlinagora/libfprint-CS9711`](https://github.com/ericlinagora/libfprint-CS9711), pinned to the tested commit `c242a40fcc51aec5b57d877bdf3edfe8cb4883fd`. See [Credits and related projects](docs/credits.md) and [Third-party notices](THIRD_PARTY_NOTICES.md).
 
 Please read the script before running it. It modifies `/usr/local` libraries, udev rules, and optionally PAM files.
 
